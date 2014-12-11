@@ -1,0 +1,2 @@
+auth required pam_userdb.so db=/etc/vsftpd_login crypt=hash
+account required pam_userdb.so db=/etc/vsftpd_login crypt=hash
