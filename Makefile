@@ -1,14 +1,43 @@
+IMAGE=camunda/camunda-vsftpd
+NAME=ftp
+OPTS=--name $(NAME) --net host -v /tmp/ftp:/srv/ftp $(FLAGS)
+DOCKER=docker $(DOCKER_OPTS)
+PROXY_IP=$($(DOCKER) inspect --format '{{ .NetworkSettings.IPAddress }}' http-proxy)
+PROXY_PORT=8888
+DOCKERFILE=Dockerfile
+DOCKERFILE_BAK=$(DOCKERFILE).http.proxy.bak
+
+
 build:
-	docker build -t camunda/vsftpd .
+	$(DOCKER) build -t $(IMAGE) .
+
+proxy: add-proxy build rm-proxy
+
+add-proxy:
+ifdef PROXY_IP
+	cp $(DOCKERFILE) $(DOCKERFILE_BAK)
+	sed -i "2i ENV http_proxy http://$(PROXY_IP):$(PROXY_PORT)" $(DOCKERFILE)
+endif
+
+rm-proxy:
+ifdef PROXY_IP
+	mv $(DOCKERFILE_BAK) $(DOCKERFILE)
+endif
 
 run:
-	docker run --rm --name ftp --net=host -v /tmp/ftp:/srv/ftp camunda/vsftpd
+	$(DOCKER) run --rm $(OPTS) $(IMAGE)
 
 daemon:
-	docker run -d --name ftp --net=host -v /tmp/ftp:/srv/ftp camunda/vsftpd
+	$(DOCKER) run -d $(OPTS) $(IMAGE)
 
-debug:
-	docker run --rm --name ftp --net=host -v /tmp/ftp:/srv/ftp -it camunda/vsftpd /bin/bash
+bash:
+	$(DOCKER) run --rm -it $(OPTS) $(IMAGE) /bin/bash
 
-kill:
-	docker rm -f ftp
+rmf:
+	$(DOCKER) rm -f $(NAME)
+
+rmi:
+	$(DOCKER) rmi $(IMAGE)
+
+
+.PHONY: build run daemon bash rmf rmi proxy add-proxy rm-proxy
