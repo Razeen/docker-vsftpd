@@ -1,6 +1,6 @@
-FROM ubuntu:14.04.1
+FROM debian:stable
 
-RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse" > /etc/apt/sources.list && \
+RUN echo "deb http://http.debian.net/debian stable main" > /etc/apt/sources.list && \
     rm -rf /etc/apt/sources.list.d/* && \
     apt-get update -qq && \
     apt-get install -qqy --no-install-recommends vsftpd db-util && \
