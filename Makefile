@@ -1,26 +1,31 @@
-IMAGE=camunda/camunda-vsftpd
+IMAGE_NAME=camunda/camunda-vsftpd
+TAG=latest
+IMAGE=$(IMAGE_NAME):$(TAG)
 NAME=ftp
 OPTS=--name $(NAME) --net host -v /tmp/ftp:/srv/ftp $(FLAGS)
+
 DOCKER=docker $(DOCKER_OPTS)
-PROXY_IP=$($(DOCKER) inspect --format '{{ .NetworkSettings.IPAddress }}' http-proxy)
+REMOVE=true
+FORCE_RM=true
+PROXY_IP=$(shell $(DOCKER) inspect --format '{{ .NetworkSettings.IPAddress }}' http-proxy 2> /dev/null)
 PROXY_PORT=8888
 DOCKERFILE=Dockerfile
 DOCKERFILE_BAK=$(DOCKERFILE).http.proxy.bak
 
 
 build:
-	$(DOCKER) build -t $(IMAGE) .
+	-$(DOCKER) build --rm=$(REMOVE) --force-rm=$(FORCE_RM) -t $(IMAGE) .
 
 proxy: add-proxy build rm-proxy
 
 add-proxy:
-ifdef PROXY_IP
+ifneq ($(strip $(PROXY_IP)),)
 	cp $(DOCKERFILE) $(DOCKERFILE_BAK)
 	sed -i "2i ENV http_proxy http://$(PROXY_IP):$(PROXY_PORT)" $(DOCKERFILE)
 endif
 
 rm-proxy:
-ifdef PROXY_IP
+ifneq ($(strip $(PROXY_IP)),)
 	mv $(DOCKERFILE_BAK) $(DOCKERFILE)
 endif
 
