@@ -39,7 +39,7 @@ bash:
 	$(DOCKER) run --rm -it $(OPTS) $(IMAGE) /bin/bash
 
 rmf:
-	$(DOCKER) rm -f $(NAME)
+	-$(DOCKER) rm -f $(NAME)
 
 rmi:
 	$(DOCKER) rmi $(IMAGE)
