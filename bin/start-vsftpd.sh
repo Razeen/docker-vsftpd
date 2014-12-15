@@ -10,4 +10,6 @@ echo -e "${FTP_USERNAME}\n${FTP_PASSWORD}" | db_load -T -t hash $PASS_DB
 
 chown -R virtual:virtual /srv/ftp
 
-exec /usr/sbin/vsftpd
+service vsftpd start
+
+exec tail -f /var/log/vsftpd.log
