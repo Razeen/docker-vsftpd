@@ -14,17 +14,14 @@ DOCKERFILE_BAK=$(DOCKERFILE).http.proxy.bak
 
 
 build:
-	-$(DOCKER) build --rm=$(REMOVE) --force-rm=$(FORCE_RM) -t $(IMAGE) .
+	$(DOCKER) build --rm=$(REMOVE) --force-rm=$(FORCE_RM) -t $(IMAGE) .
 
-proxy: add-proxy build rm-proxy
-
-add-proxy:
+proxy:
 ifneq ($(strip $(PROXY_IP)),)
 	cp $(DOCKERFILE) $(DOCKERFILE_BAK)
 	sed -i "2i ENV http_proxy http://$(PROXY_IP):$(PROXY_PORT)" $(DOCKERFILE)
 endif
-
-rm-proxy:
+	-$(DOCKER) build --rm=$(REMOVE) --force-rm=$(FORCE_RM) -t $(IMAGE) .
 ifneq ($(strip $(PROXY_IP)),)
 	mv $(DOCKERFILE_BAK) $(DOCKERFILE)
 endif
