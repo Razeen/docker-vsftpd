@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM camunda-ci1:5000/debian:stable
 
 RUN echo "deb http://http.debian.net/debian stable main" > /etc/apt/sources.list && \
     rm -rf /etc/apt/sources.list.d/* && \
