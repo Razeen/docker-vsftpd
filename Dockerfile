@@ -14,6 +14,8 @@ RUN echo "deb http://http.debian.net/debian stable main" > /etc/apt/sources.list
 ADD bin/start-vsftpd.sh /usr/local/bin/
 ADD etc/pam.d/ftp /etc/pam.d/
 ADD etc/vsftpd.conf /etc/
+ADD etc/vsftpd.anon.conf /etc/
+ADD etc/hosts.allow /etc/
 
 EXPOSE 20 21
 
