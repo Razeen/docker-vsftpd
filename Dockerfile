@@ -1,8 +1,6 @@
 FROM camunda-ci1:5000/debian:stable
 
-RUN echo "deb http://http.debian.net/debian stable main" > /etc/apt/sources.list && \
-    rm -rf /etc/apt/sources.list.d/* && \
-    apt-get update -qq && \
+RUN apt-get update -qq && \
     apt-get install -qqy --no-install-recommends vsftpd db-util openssl && \
     apt-get clean && \
     rm -rf /var/cache/* /var/lib/apt/lists/* && \
