@@ -11,4 +11,4 @@
 # for further information.
 #
 
-vsftpd: 192.168.178.,172.17.,127.0.0.1 : setenv VSFTPD_LOAD_CONF /etc/vsftpd.anon.conf
+vsftpd: 192.168.,172.17.,127.0.0.1 : setenv VSFTPD_LOAD_CONF /etc/vsftpd.anon.conf
