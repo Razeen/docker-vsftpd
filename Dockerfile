@@ -1,4 +1,4 @@
-FROM camunda-ci1:5000/debian:stable
+FROM camunda-ci1.local:5000/debian:stable
 
 RUN apt-get update -qq && \
     apt-get install -qqy --no-install-recommends vsftpd db-util openssl && \
@@ -7,7 +7,7 @@ RUN apt-get update -qq && \
     mkdir -p /var/run/vsftpd/empty && \
     useradd -d /srv/ftp virtual && \
     chown virtual:virtual /srv/ftp && \
-    openssl req -x509 -nodes -days 365 -newkey rsa:4096 -subj "/C=DE/ST=Berlin/L=Berlin/O=camunda/OU=camunda/CN=camunda-ci1" -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem
+    openssl req -x509 -nodes -days 365 -newkey rsa:4096 -subj "/C=DE/ST=Berlin/L=Berlin/O=camunda/OU=camunda/CN=camunda-ci1.local" -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem
 
 ADD bin/start-vsftpd.sh /usr/local/bin/
 ADD etc/pam.d/ftp /etc/pam.d/

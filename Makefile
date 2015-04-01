@@ -1,6 +1,6 @@
 # image settings for the docker image name, tags and
 # container name while running
-IMAGE_NAME=camunda-ci1:5000/camunda-vsftpd
+IMAGE_NAME=camunda-ci1.local:5000/camunda-vsftpd
 TAGS=latest
 NAME=ftp
 
