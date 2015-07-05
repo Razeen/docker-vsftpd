@@ -1,4 +1,4 @@
-FROM camunda-ci1.local:5000/debian:stable
+FROM debian:stable
 
 RUN apt-get update -qq && \
     apt-get install -qqy --no-install-recommends vsftpd db-util openssl && \
