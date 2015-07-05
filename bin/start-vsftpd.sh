@@ -1,7 +1,7 @@
 #!/bin/bash
 
-FTP_USERNAME=${FTP_USERNAME:-camunda}
-FTP_PASSWORD=${FTP_PASSWORD:-camunda}
+FTP_USERNAME=${FTP_USERNAME:-razeen}
+FTP_PASSWORD=${FTP_PASSWORD:-razeen}
 
 PASS_DB=/etc/vsftpd_login.db
 
